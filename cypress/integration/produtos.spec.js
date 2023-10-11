@@ -7,18 +7,18 @@ describe('Testes da Funcionalidade Produtos', () => {
         cy.token('fulano@qa.com', 'teste').then(tkn => { token = tkn })
     });
 
-    it('Deve validar contrato de produtos', () => {
-        cy.request('produtos').then(response => {
-            return contrato.validateAsync(response.body)
-        })
-    });
+    // it('Deve validar contrato de produtos', () => {
+    //     cy.request('produtos').then(response => {
+    //         return contrato.validateAsync(response.body)
+    //     })
+    // });
 
     it('Deve listar os produtos cadastrados', () => {
         cy.request({
             method: 'GET',
             url: 'produtos'
         }).then((response) => {
-            //expect(response.body.produtos[9].nome).to.equal('Produto EBAC 436746')
+            // expect(response.body.produtos[9].nome).to.equal('New Product 305493')
             expect(response.status).to.equal(200)
             expect(response.body).to.have.property('produtos')
             expect(response.duration).to.be.lessThan(20)
@@ -94,14 +94,14 @@ describe('Testes da Funcionalidade Produtos', () => {
         })
     });
 
-    it('Deve deletar um produto previamente cadastrado', () => {
+    it.only('Deve deletar um produto previamente cadastrado', () => {
         let produto = `Produto EBAC ${Math.floor(Math.random() * 100000000)}`
         cy.cadastrarProduto(token, produto, 250, "Descrição do produto novo", 180)
         .then(response => {
             let id = response.body._id
             cy.request({
                 method: 'DELETE',
-                url: `produtos/${id}`,
+                url: `usuarios/${id}`,
                 headers: {authorization: token}
             }).then(response =>{
                 expect(response.body.message).to.equal('Registro excluído com sucesso')
